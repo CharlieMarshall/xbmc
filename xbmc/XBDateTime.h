@@ -73,6 +73,8 @@ public:
   int GetMinutes() const;
   int GetSeconds() const;
 
+  int GetSecondsTotal() const;
+
 private:
   void ToULargeInt(ULARGE_INTEGER& time) const;
   void FromULargeInt(const ULARGE_INTEGER& time);

@@ -50,7 +50,7 @@ namespace EPG
   public:
     CGUIEPGGridContainer(int parentID, int controlID, float posX, float posY, float width, float height,
                          ORIENTATION orientation, int scrollTime, int preloadItems, int minutesPerPage,
-                         int rulerUnit);
+                         int rulerUnit, const CTextureInfo& rulerTexture);
     virtual ~CGUIEPGGridContainer(void);
     virtual CGUIEPGGridContainer *Clone() const { return new CGUIEPGGridContainer(*this); };
 
@@ -208,6 +208,8 @@ namespace EPG
     float m_gridHeight;
     float m_blockSize;      //! a block's width in pixels
     float m_analogScrollCount;
+
+    CGUITexture m_guiRulerTexture;
 
     CDateTime m_gridStart;
     CDateTime m_gridEnd;
