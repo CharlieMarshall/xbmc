@@ -182,12 +182,6 @@ namespace PVR
 
     bool CreateChannel(const CPVRChannel &channel);
 
-    /*!
-     * @brief Create EPG tags for channels in all internal channel groups.
-     * @return True if EPG tags were created succesfully.
-     */
-    bool CreateChannelEpgs(void);
-
   protected:
     /*!
      * @brief Update the contents of all the groups in this container.

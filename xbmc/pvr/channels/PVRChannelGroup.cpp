@@ -1226,9 +1226,3 @@ bool CPVRChannelGroup::IsSelectedGroup(void) const
   CSingleLock lock(m_critSection);
   return m_bSelectedGroup;
 }
-
-bool CPVRChannelGroup::CreateChannelEpgs(bool bForce /* = false */)
-{
-  /* used only by internal channel groups */
-  return true;
-}
