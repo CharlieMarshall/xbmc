@@ -867,7 +867,8 @@ bool CGUIMediaWindow::Update(const CStdString &strDirectory, bool updateFilterPa
   if (!bSelectedFound)
     m_viewControl.SetSelectedItem(0);
 
-  if (iWindow != WINDOW_PVR || (iWindow == WINDOW_PVR && m_vecItems->GetPath().Left(17) == "pvr://recordings/"))
+  if (iWindow != WINDOW_TV || iWindow != WINDOW_RADIO ||
+      ((iWindow == WINDOW_TV || iWindow == WINDOW_RADIO) && StringUtils::StartsWith(m_vecItems->GetPath(), "pvr://recordings/")))
     m_history.AddPath(m_vecItems->GetPath(), m_strFilterPath);
 
   //m_history.DumpPathHistory();

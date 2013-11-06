@@ -155,9 +155,9 @@ void CGUIWindowPVRSearch::UpdateData(bool bUpdateSelectedFile /* = true */)
 
 bool CGUIWindowPVRSearch::OnClickButton(CGUIMessage &message)
 {
-  bool bReturn = false;
+  bool bReturn = CGUIWindowPVRCommon::OnClickButton(message);
 
-  if (IsSelectedButton(message))
+  if (!bReturn && IsSelectedButton(message))
   {
     bReturn = true;
     ShowSearchResults();
@@ -287,4 +287,16 @@ void CGUIWindowPVRSearch::ShowSearchResults()
     m_bSearchConfirmed = true;
     UpdateData();
   }
+}
+
+void CGUIWindowPVRSearch::UnregisterObservers(void)
+{
+}
+
+void CGUIWindowPVRSearch::ResetObservers(void)
+{
+}
+
+void CGUIWindowPVRSearch::Notify(const Observable &obs, const ObservableMessage msg)
+{
 }
