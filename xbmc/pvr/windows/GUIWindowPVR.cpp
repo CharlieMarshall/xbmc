@@ -416,3 +416,13 @@ void CGUIWindowPVR::SetSelectedGroup(CPVRChannelGroupPtr group)
   m_selectedGroup->RegisterObserver(m_windowChannels);
   g_PVRManager.SetPlayingGroup(m_selectedGroup);
 }
+
+bool CGUIWindowPVR::IsRadio()
+{
+  return m_bRadio;
+}
+
+void CGUIWindowPVR::SetRadio(bool bRadio)
+{
+  m_bRadio = bRadio;
+}

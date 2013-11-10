@@ -264,7 +264,7 @@ void CGUIWindowPVRGuide::UpdateData(bool bUpdateSelectedFile /* = true */)
   CPVRChannelGroupPtr group = m_parent->GetSelectedGroup();
   CStdString strPath;
   strPath.Format("pvr://channels/%s/%s/",
-                 m_parent->m_bRadio ? "radio" : "tv",
+                 m_parent->IsRadio() ? "radio" : "tv",
                  m_bShowHiddenChannels ? ".hidden" : group->GroupName());
   m_parent->Update(strPath);
   

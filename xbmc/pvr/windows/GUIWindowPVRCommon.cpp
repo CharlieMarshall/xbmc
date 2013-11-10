@@ -418,6 +418,8 @@ bool CGUIWindowPVRCommon::ShowNewTimerDialog(void)
 
   CPVRTimerInfoTag *newTimer = new CPVRTimerInfoTag;
   CFileItem *newItem = new CFileItem(*newTimer);
+  newItem->GetPVRTimerInfoTag()->m_bIsRadio = m_parent->IsRadio();
+  
   if (ShowTimerSettings(newItem))
   {
     /* Add timer to backend */

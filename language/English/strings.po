@@ -7427,7 +7427,11 @@ msgctxt "#19065"
 msgid "Default EPG window"
 msgstr ""
 
-#empty string with id 19066
+msgctxt "#19066"
+msgid "Please select a channel"
+msgstr ""
+
+#empty string with id 19067
 
 msgctxt "#19067"
 msgid "This event is already being recorded."
