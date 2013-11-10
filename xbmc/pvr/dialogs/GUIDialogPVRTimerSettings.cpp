@@ -145,10 +145,6 @@ void CGUIDialogPVRTimerSettings::SetTimerFromWeekdaySetting(CPVRTimerInfoTag &ti
 void CGUIDialogPVRTimerSettings::CreateSettings()
 {
   CPVRTimerInfoTag* tag = m_timerItem->GetPVRTimerInfoTag();
-  
-  // FIXME: Workaround to lost of tag->m_bIsRadio after wrapped into CFileItem
-  if(tag->ChannelTag())
-    tag->m_bIsRadio = tag->ChannelTag()->IsRadio();
 
   // clear out any old settings
   m_settings.clear();
