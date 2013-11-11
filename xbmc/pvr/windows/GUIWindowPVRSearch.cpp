@@ -265,7 +265,7 @@ bool CGUIWindowPVRSearch::ActionShowSearch(CFileItem *item)
 
 void CGUIWindowPVRSearch::ShowSearchResults()
 {
-  /* Load timer settings dialog */
+  /* Load search dialog */
   CGUIDialogPVRGuideSearch* pDlgInfo = (CGUIDialogPVRGuideSearch*)g_windowManager.GetWindow(WINDOW_DIALOG_PVR_GUIDE_SEARCH);
 
   if (!pDlgInfo)
@@ -278,6 +278,9 @@ void CGUIWindowPVRSearch::ShowSearchResults()
   }
 
   pDlgInfo->SetFilterData(&m_searchfilter);
+
+  /* Set channel type filter */
+  m_searchfilter.m_bIsRadio = m_parent->IsRadio();
 
   /* Open dialog window */
   pDlgInfo->DoModal();
