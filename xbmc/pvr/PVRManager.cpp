@@ -77,7 +77,7 @@ CPVRManager::CPVRManager(void) :
     m_bEpgsCreated(false),
     m_progressHandle(NULL),
     m_managerState(ManagerStateStopped),
-    m_bOpenPVRWindow(false)
+    m_openWindowId(0)
 {
   ResetProperties();
 }
@@ -173,7 +173,8 @@ void CPVRManager::OnSettingAction(const CSetting *setting)
 
 bool CPVRManager::IsPVRWindowActive(void) const
 {
-  return g_windowManager.IsWindowActive(WINDOW_PVR) ||
+  return g_windowManager.IsWindowActive(WINDOW_TV) ||
+      g_windowManager.IsWindowActive(WINDOW_RADIO) ||
       g_windowManager.IsWindowActive(WINDOW_DIALOG_PVR_CHANNEL_MANAGER) ||
       g_windowManager.IsWindowActive(WINDOW_DIALOG_PVR_OSD_CHANNELS) ||
       g_windowManager.IsWindowActive(WINDOW_DIALOG_PVR_GROUP_MANAGER) ||
@@ -278,7 +279,7 @@ void CPVRManager::Cleanup(void)
   m_currentFile           = NULL;
   m_bIsSwitchingChannels  = false;
   m_outdatedAddons.clear();
-  m_bOpenPVRWindow = false;
+  m_openWindowId = 0;
   m_bEpgsCreated = false;
 
   for (unsigned int iJobPtr = 0; iJobPtr < m_pendingUpdates.size(); iJobPtr++)
@@ -307,24 +308,24 @@ void CPVRManager::ResetProperties(void)
 class CPVRManagerStartJob : public CJob
 {
 public:
-  CPVRManagerStartJob(bool bOpenPVRWindow = false) :
-    m_bOpenPVRWindow(bOpenPVRWindow) {}
+  CPVRManagerStartJob(int openWindowId = 0) :
+    m_openWindowId(openWindowId) {}
   ~CPVRManagerStartJob(void) {}
 
   bool DoWork(void)
   {
-    g_PVRManager.Start(false, m_bOpenPVRWindow);
+    g_PVRManager.Start(false, m_openWindowId);
     return true;
   }
 private:
-  bool m_bOpenPVRWindow;
+  bool m_openWindowId;
 };
 
-void CPVRManager::Start(bool bAsync /* = false */, bool bOpenPVRWindow /* = false */)
+void CPVRManager::Start(bool bAsync /* = false */, int openWindowId /* = 0 */)
 {
   if (bAsync)
   {
-    CPVRManagerStartJob *job = new CPVRManagerStartJob(bOpenPVRWindow);
+    CPVRManagerStartJob *job = new CPVRManagerStartJob(openWindowId);
     CJobManager::GetInstance().AddJob(job, NULL);
     return;
   }
@@ -340,7 +341,7 @@ void CPVRManager::Start(bool bAsync /* = false */, bool bOpenPVRWindow /* = fals
 
   ResetProperties();
   SetState(ManagerStateStarting);
-  m_bOpenPVRWindow = bOpenPVRWindow;
+  m_openWindowId = openWindowId;
 
   /* create and open database */
   if (!m_database)
@@ -421,10 +422,10 @@ void CPVRManager::Process(void)
   CLog::Log(LOGDEBUG, "PVRManager - %s - entering main loop", __FUNCTION__);
   g_EpgContainer.Start();
 
-  if (m_bOpenPVRWindow)
+  if (m_openWindowId == WINDOW_TV || m_openWindowId == WINDOW_RADIO)
   {
-    m_bOpenPVRWindow = false;
-    CApplicationMessenger::Get().ExecBuiltIn("XBMC.ActivateWindowAndFocus(MyPVR, 32,0, 11,0)");
+    m_openWindowId = 0;
+    g_windowManager.ActivateWindow(m_openWindowId);
   }
 
   bool bRestart(false);
@@ -461,7 +462,7 @@ void CPVRManager::Process(void)
   }
   else
   {
-    if (g_windowManager.GetActiveWindow() == WINDOW_PVR)
+    if (g_windowManager.GetActiveWindow() == WINDOW_TV || g_windowManager.GetActiveWindow() == WINDOW_RADIO)
       g_windowManager.ActivateWindow(WINDOW_HOME);
   }
 }
@@ -532,9 +533,12 @@ bool CPVRManager::Load(void)
 
   CLog::Log(LOGDEBUG, "PVRManager - %s - active clients found. continue to start", __FUNCTION__);
 
-  CGUIWindowPVR *pWindow = (CGUIWindowPVR *) g_windowManager.GetWindow(WINDOW_PVR);
-  if (pWindow)
-    pWindow->Reset();
+  CGUIWindowPVR *pWindowTv = (CGUIWindowPVR *) g_windowManager.GetWindow(WINDOW_TV);
+  CGUIWindowPVR *pWindowRadio = (CGUIWindowPVR *) g_windowManager.GetWindow(WINDOW_RADIO);
+  if (pWindowTv)
+    pWindowTv->Reset();
+  if (pWindowRadio)
+    pWindowRadio->Reset();
 
   /* load all channels and groups */
   ShowProgressDialog(g_localizeStrings.Get(19236), 0); // Loading channels from clients

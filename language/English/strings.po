@@ -7233,7 +7233,7 @@ msgstr ""
 
 #: xbmc/dialogs/GUIDialogMediaSource.cpp
 msgctxt "#19017"
-msgid "TV recordings"
+msgid "Recordings"
 msgstr ""
 
 #: system/settings/settings.xml
@@ -7435,7 +7435,11 @@ msgctxt "#19065"
 msgid "Default EPG window"
 msgstr ""
 
-#empty string with id 19066
+msgctxt "#19066"
+msgid "Please select a channel"
+msgstr ""
+
+#empty string with id 19067
 
 msgctxt "#19067"
 msgid "This event is already being recorded."
@@ -7908,7 +7912,12 @@ msgctxt "#19182"
 msgid "Days to display in the EPG"
 msgstr ""
 
-#empty string with id 19183
+#: system/settings/settings.xml
+msgctxt "#19183"
+msgid "Radio"
+msgstr ""
+
+#empty string with id 19184
 
 #: system/settings/settings.xml
 msgctxt "#19184"
@@ -8333,7 +8342,11 @@ msgctxt "#19281"
 msgid "Confirm channel switches by pressing OK"
 msgstr ""
 
-#empty strings from id 19282 to 19498
+msgctxt "#19282"
+msgid "All channels"
+msgstr ""
+
+#empty strings from id 19283 to 19498
 
 #: xbmc/epg/Epg.cpp
 msgctxt "#19499"
